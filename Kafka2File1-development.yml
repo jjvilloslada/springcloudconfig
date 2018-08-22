@@ -1,0 +1,31 @@
+spring.application.name: KafKaToFile
+
+logging:
+  level:
+    root: INFO
+
+
+spring:
+  kafka:
+    bootstrap-servers: stratus_kafkabroker:9092
+    consumer:
+          group-id: iris
+          auto-offset-reset: earliest
+          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+          value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+    listener:
+          concurrency: 3
+    properties:
+          schema.registry.url: http://stratus_schemaregistry:8081
+
+app:
+  topic:
+    input: iris
+
+output:
+  system: iris
+  extension: .csv
+  separator: ;
+  action: U
+  pathOutput: C:\escritura\
+  fields: shortName;fullName;isEntity;countryOfResidence;isIntragroup;segment;sector;cptyType;shortNameCptyPadre;idFiscal;area;corporativa;swift6;message;fchActivation;fchExpira;aplyCheckLine;cvAction;cvName;cvValue
