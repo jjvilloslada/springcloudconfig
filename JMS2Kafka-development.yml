@@ -1,0 +1,43 @@
+jms:
+    urlConnection: tcp://localhost:7222
+    queueName: sample
+    userName: admin
+    userPassword: Administrator
+    concurrency: 1
+
+spring:
+  kafka:
+    producer:
+          bootstrap-servers: stratus_kafkabroker:9092
+          key-serializer: org.apache.kafka.common.serialization.StringSerializer
+          value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+    properties:
+              schema.registry.url: http://stratus_schemaregistry:8081
+#
+#
+    listener:
+              concurrency: 3
+
+app:
+  topic:
+    output: gbo
+
+
+parser:
+  paths: entityTypeGBO:Double:/ResultRecord/Object/Compact/PGT_-_Entity/pEntityType/;
+        documentTypeGBO:Double:/ResultRecord/Object/Compact/PGT_-_Entity/pDocType/;
+        GLCS:String:/ResultRecord/Object/Compact/PGT_-_Entity/amObjSource/item[pSource=20.4]/AliasCode/;
+        LEI:String:/ResultRecord/Object/Compact/PGT_-_Entity/LEI/;
+        documentID:String:/ResultRecord/Object/Compact/PGT_-_Entity/TaxId_new/;
+        fullName:String:/ResultRecord/Object/Compact/PGT_-_Entity/Desc_new/;
+        countryOfResidenceGBO:Double:/ResultRecord/Object/Compact/PGT_-_Entity/pResCountry/;
+        groupIndicator:Boolean:/ResultRecord/Object/Compact/PGT_-_Entity/GroupInd/;
+        entityStatusGBO:Double:/ResultRecord/Object/Compact/PGT_-_Entity/pEntityStatus/;
+        finantialGroup:String:/ResultRecord/Object/Compact/PGT_-_Entity/pEconSector/
+  genericHeaderStatic:
+        source:String:GBO;
+        sourceID:String:GBO_JMS
+  genericHeaderPaths:
+        location:String:/ResultRecord/Object/Compact/PGT_-_Entity/pResCountry/;
+        language:String:/ResultRecord/Object/Compact/PGT_-_Entity/pResCountry/
+  objectToParser : com.santander.stratus.source.Gbo
