@@ -1,0 +1,39 @@
+spring.application.name: KafKa2JMS
+logging:
+  level:
+    root: INFO
+spring:
+  kafka:
+    bootstrap-servers: stratus_kafkabroker:9092
+    consumer:
+          group-id: iris
+          auto-offset-reset: earliest
+          key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+          value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
+    listener:
+          concurrency: 3
+    properties:
+          schema.registry.url: http://stratus_schemaregistry:8081
+app:
+  topic:
+    input: iris
+parser:
+  fields: fullName:/Desc;
+          finantialGroup:/pEconSector;
+          documentID:/TaxId_new;
+          documentTypeGBO:/pDocType;
+          entityStatusGBO:/pEntityStatus;
+          entityTypeGBO:/pEntityType;
+          countryOfResidenceGBO:/pResCountry;
+          LEI:/LEI;
+          GLCS:/ShortName
+  xPathRoot: PGT_-_Entity
+  xPathBase: PGT_-_Entity
+# Forcing fixed values; first field is the value and the second field is the XML path
+  forcedFields:
+jms:
+    urlConnection: tcp://localhost:7222
+    queueName: jmsInput
+    userName: admin
+    userPassword: Administrator
+    concurrency: 1
