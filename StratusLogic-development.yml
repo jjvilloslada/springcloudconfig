@@ -1,1 +1,34 @@
-example : 10
+
+flink{
+  mode = "local"
+  checkpointDir = "state/checkpoint"
+  checkpointData = "state/checkpoint-data"
+  msCheckpointing = 10000
+}
+
+hazelcast{
+  hzUrl= "stratus_hazelcast:5701"
+  hzPath="/opt/hazelcast-3.8.3/bin/hazelcast.xml"
+  hzMapClientDNA="clientDNA"
+  hzMapDrools="loadDrools"
+  keyMapDrools="map_stratus"
+  fieldsKey = ["GLCS"]
+}
+
+kafka{
+  kafkaBrokersUrls = "stratus_kafkabroker:9092"
+  zkUrl = "stratus_zookeeper:2181"
+  schemaRegistryOn = true
+  schemaRegistryUrl = "http://stratus_schemaregistry:8081"
+  topics {
+    genericInputTopicConf = "gbo:1"
+    genericOutputTopicConf = "iris:1"
+  }
+}
+
+schemaregistry{
+  clientDNASchema="clientDNA-value"
+  sourceSchema="source-value"
+  sourceSchemaOffSchemaRegistry="com.santander.stratus.source.Gbo"
+  destinySchemaOffSchemaRegistry="com.santander.stratus.dna.ClientDNA"
+}
